@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            {% for offer in offers %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ offer.title }}</h5>
+                            <p class="card-text">{{ offer.description }}</p>
+                            <p class="card-text">Type de contrat : {{ offer.KindContract.title  }}  {{ offer.TypesContracts.title }}</p>
+                            <p class="card-text">{{ offer.address }}</p>
+                            <p class="card-text">{{ offer.zipCode }} {{ offer.city }}</p>
+                            <p class="card-text">Date de mise à jour : {{ offer.updateDate | date("d/m/y") }}</p>
+                            <p class="card-text">Date du post : {{ offer.creationDate | date("d/m/y") }}</p>
+
+                            <a href="/offer/{{offer.id}}" class="card-link">Allez sur l'offre</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
