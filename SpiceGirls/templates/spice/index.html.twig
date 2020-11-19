@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             {% for offer in offers %}
-                <div class="col-md-4">
+                <div class="col-md-4 mt-5">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ offer.title }}</h5>
@@ -16,7 +16,11 @@
                             <p class="card-text">Date de mise à jour : {{ offer.updateDate | date("d/m/y") }}</p>
                             <p class="card-text">Date du post : {{ offer.creationDate | date("d/m/y") }}</p>
 
-                            <a href="/offer/{{offer.id}}" class="card-link">Allez sur l'offre</a>
+                            <div class="d-flex flex-row-reverse bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <a href="/offer/{{offer.id}}" class="btn btn-outline-primary mx-auto">Allez sur l'offre</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

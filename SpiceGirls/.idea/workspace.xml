@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="599f0517-f463-4cdb-8547-9f46b7af6c0f" name="Default Changelist" comment="" />
+    <list default="true" id="599f0517-f463-4cdb-8547-9f46b7af6c0f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/spice/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/spice/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/spice/offer.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/spice/offer.html.twig" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -155,6 +160,7 @@
       <workItem from="1605524331730" duration="5172000" />
       <workItem from="1605530854548" duration="413000" />
       <workItem from="1605531340338" duration="30000" />
+      <workItem from="1605787854792" duration="945000" />
     </task>
     <servers />
   </component>

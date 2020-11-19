@@ -14,6 +14,12 @@
                     <p class="card-text">{{ offer.zipCode }} {{ offer.city }}</p>
                     <p class="card-text">Date de mise à jour : {{ offer.updateDate | date("d/m/y") }}</p>
                     <p class="card-text">Date du post : {{ offer.creationDate | date("d/m/y") }}</p>
+
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <div class="p-2 bd-highlight">
+                            <a href="#/{{offer.id}}" class="btn btn-outline-primary mx-auto">Postuler</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
