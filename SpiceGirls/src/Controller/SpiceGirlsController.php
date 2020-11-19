@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SpiceGirlsController extends AbstractController
 {
     /**
-     * @Route("/spice", name="spice")
+     * @Route("/", name="spice")
      * @param OffersRepository $offersRepository
      */
 
@@ -47,6 +47,8 @@ class SpiceGirlsController extends AbstractController
     {
         $addOffer = new Offers();
         $form = $this->createFormBuilder($addOffer)->getForm()
+
+
             ->add("Titre", TextType::class, [
                 "attr" => ["class" => "form-control"]
             ])
