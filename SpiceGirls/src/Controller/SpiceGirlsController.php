@@ -92,10 +92,12 @@ class SpiceGirlsController extends AbstractController
             ->getForm();
 
         $offernew->setCreationDate(new \DateTime());
-
+        $offernew->setUpdateDate(new \DateTime());
 
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($offernew);
             $entityManager->flush();
         }
