@@ -3,20 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\Offers;
+use App\Entity\KindsContracts;
+use App\Entity\TypesContracts;
 use App\Repository\OffersRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SpiceGirlsController extends AbstractController
 {
     /**
-     * @Route("/spice", name="spice")
+     * @Route("/", name="spice")
      * @param OffersRepository $offersRepository
      */
 
@@ -29,10 +31,10 @@ class SpiceGirlsController extends AbstractController
     }
 
     /**
-     * @Route("/offer/{id}", name="offer")
+     * @Route("/posts/{id}", name="post")
      * @param Offers $offers
      */
-    public function offer(Offers $offer)
+    public function offer(Offers $offer, Request $request, EntityManagerInterface $entityManager)
     {
         return $this->render('spice/offer.html.twig', [
             'offer' => $offer,
@@ -42,51 +44,57 @@ class SpiceGirlsController extends AbstractController
 
     /**
      * @Route("/add", name="add")
+     * @param Offers $offers
      */
-    public function add(Offers $offer, Request $request, EntityManagerInterface $em)
+
+    public function add(Request $request, EntityManagerInterface $entityManager)
     {
-        $addOffer = new Offers();
-        $form = $this->createFormBuilder($addOffer)->getForm()
-            ->add("Titre", TextType::class, [
-                "attr" => ["class" => "form-control"]
-            ])
+        $offernew = new Offers();
+        $form = $this->createFormBuilder($offernew)
+            ->add("Title",  TextType::class, [
+                "attr" => ["class" => "form-control"]])
+
             ->add("Description", TextareaType::class, [
-                "attr" => ["class" => "form-control"]
-            ])
-            ->add("Contrat")
-            ->add("Type de conrat")
-            ->add("Adresse", TextareaType::class, [
-                "attr" => ["class" => "form-control"]
-            ])
-            ->add("Code Postal", TextareaType::class, [
-                "attr" => ["class" => "form-control"]
-            ])
-            ->add("Ville", TextareaType::class, [
-                "attr" => ["class" => "form-control"]
-            ])
-            ->add("Date de fin de contrat", DateType::class, [
-                "attr" => ["class" => "form-control"]
-            ])
-            ->add('Poster', SubmitType::class, [
-                "attr" => ["class" => "btn btn-outline-primary"]
-            ])
+                "attr" => ["class" => "form-control"]])
+
+            ->add("Address",  TextType::class, [
+                "attr" => ["class" => "form-control"]])
+
+            ->add("ZipCode",  TextType::class, [
+                "attr" => ["class" => "form-control"]])
+
+            ->add("City",  TextType::class, [
+                "attr" => ["class" => "form-control"]])
+
+            ->add("EndContract", DateType::class, [
+                "attr" => ["class" => "form-control"]])
+
+            /*->add($kindsContracts, TextType::class, [
+                "attr" => ["class" => "form-control"]])
+
+            ->add($typesContracts, TextType::class, [
+                "attr" => ["class" => "form-control"]])*/
+
+            ->add("submit", SubmitType::class, [
+                "attr" => ["class" => "btn btn-primary mt-2"]])
+
             ->getForm();
 
-        $addOffer->setCreationDate(new \DateTime());
-        $addOffer->setUpdateDate(new \DateTime());
-        $addOffer->setOffers($offer);
+        $offernew->setCreationDate(new \DateTime());
+
 
         $form->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid()) {
-            $em->persist($addOffer);
-            $em->flush();
+            $entityManager->persist($offernew);
+            $entityManager->flush();
         }
 
         return $this->render('spice/add.html.twig', [
-            'offer' => $offer,
-            'form' => $form->createView(),
+            "form" => $form->createView()
+
         ]);
+
+
     }
 }
 
