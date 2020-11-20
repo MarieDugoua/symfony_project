@@ -5,14 +5,18 @@ namespace App\Controller;
 use App\Entity\Offers;
 use App\Entity\KindsContracts;
 use App\Entity\TypesContracts;
+use App\Repository\KindsContractsRepository;
 use App\Repository\OffersRepository;
+use App\Repository\TypesContractsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -68,19 +72,14 @@ class SpiceGirlsController extends AbstractController
             ->add("City",  TextType::class, [
                 "attr" => ["class" => "form-control"]])
 
-            ->add("KindContract", ChoiceType::class, [
-                'choices'  => [
-                    'CDI' => 4,
-                    'CDD' => 5,
-                    'FREE' => 6,
-                ],
+            ->add("KindContract", EntityType::class, [
+                'class' => KindsContracts::class,
+                'choice_label' => 'title',
                 "attr" => ["class" => "form-control"]])
 
-            ->add("typesContracts", ChoiceType::class, [
-                'choices'  => [
-                    'Temps plein' => 3,
-                    'Temps partiel' => 4,
-                ],
+            ->add("typesContracts", EntityType::class, [
+                'class' => TypesContracts::class,
+                'choice_label' => 'title',
                 "attr" => ["class" => "form-control"]])
 
             ->add("EndContract", DateType::class, [
