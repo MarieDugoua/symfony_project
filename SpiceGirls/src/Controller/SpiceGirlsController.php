@@ -99,6 +99,8 @@ class SpiceGirlsController extends AbstractController
 
             $entityManager->persist($offernew);
             $entityManager->flush();
+
+            return $this->redirectToRoute('spice');
         }
 
         return $this->render('spice/add.html.twig', [
