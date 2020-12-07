@@ -24,10 +24,17 @@
                     <a class="nav-link" href="/add">Ajouter une offre</a>
                 </li>
             </ul>
-            {#<form class="form-inline my-2 my-lg-0">
-                <button class="btn btn-outline-success m-2 my-sm-0" type="submit">Login</button>
-                <button class="btn btn-outline-success m-2 my-sm-0" type="submit">Sign up</button>
-            </form>#}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') -%}
+                <form class="form-inline my-2 my-lg-0">
+                    <a class="btn btn-outline-danger m-2 my-sm-0" type="submit" href="/logout">Disconnection</a>
+                </form>
+            {% else %}
+                <form class="form-inline my-2 my-lg-0">
+                    <a class="btn btn-outline-success m-2 my-sm-0" type="submit" href="/login">Login</a>
+                    <a class="btn btn-outline-success m-2 my-sm-0" type="submit" href="/register">Sign up</a>
+                </form>
+            {% endif %}
+
         </div>
     </nav>
 {% endblock %}

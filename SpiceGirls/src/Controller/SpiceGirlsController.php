@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Offers;
 use App\Entity\KindsContracts;
 use App\Entity\TypesContracts;
+use App\Form\OfferFormType;
 use App\Repository\KindsContractsRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Repository\OffersRepository;
 use App\Repository\TypesContractsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SpiceGirlsController extends AbstractController
@@ -39,7 +42,7 @@ class SpiceGirlsController extends AbstractController
      * @Route("/posts/{id}", name="post")
      * @param Offers $offers
      */
-    public function offer(Offers $offer, Request $request, EntityManagerInterface $entityManager)
+    public function offer(Offers $offer)
     {
         return $this->render('spice/offer.html.twig', [
             'offer' => $offer,
@@ -49,6 +52,7 @@ class SpiceGirlsController extends AbstractController
 
     /**
      * @Route("/add", name="add")
+     * @IsGranted("ROLE_USER")
      * @param Offers $offers
      */
 
@@ -56,39 +60,7 @@ class SpiceGirlsController extends AbstractController
     {
 
         $offernew = new Offers();
-        $form = $this->createFormBuilder($offernew)
-            ->add("Title",  TextType::class, [
-                "attr" => ["class" => "form-control"]])
-
-            ->add("Description", TextareaType::class, [
-                "attr" => ["class" => "form-control"]])
-
-            ->add("Address",  TextType::class, [
-                "attr" => ["class" => "form-control"]])
-
-            ->add("ZipCode",  TextType::class, [
-                "attr" => ["class" => "form-control"]])
-
-            ->add("City",  TextType::class, [
-                "attr" => ["class" => "form-control"]])
-
-            ->add("KindContract", EntityType::class, [
-                'class' => KindsContracts::class,
-                'choice_label' => 'title',
-                "attr" => ["class" => "form-control"]])
-
-            ->add("typesContracts", EntityType::class, [
-                'class' => TypesContracts::class,
-                'choice_label' => 'title',
-                "attr" => ["class" => "form-control"]])
-
-            ->add("EndContract", DateType::class, [
-                "attr" => ["class" => "my-2"]])
-
-            ->add("submit", SubmitType::class, [
-                "attr" => ["class" => "btn btn-primary mt-2"]])
-
-            ->getForm();
+        $form = $this->createForm(OfferFormType::class, $offernew);
 
         $offernew->setCreationDate(new \DateTime());
         $offernew->setUpdateDate(new \DateTime());
@@ -100,6 +72,8 @@ class SpiceGirlsController extends AbstractController
             $entityManager->persist($offernew);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Article added!');
+
             return $this->redirectToRoute('spice');
         }
 
@@ -108,7 +82,48 @@ class SpiceGirlsController extends AbstractController
 
         ]);
 
+    }
 
+    /**
+     * @Route("/posts/{id}/update", name="updateOffer")
+     * @param Offers $offers
+     */
+
+    public function edit(Offers $offer, Request $request, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createForm(OfferFormType::class, $offer);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $offer = $form->getData();
+
+            $entityManager->persist($offer);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Article Updated!');
+
+            return $this->redirectToRoute('spice');
+        }
+
+        return $this->render('spice/updateOffer.html.twig', [
+            "form" => $form->createView()
+
+        ]);
+    }
+
+    /**
+     * @Route("/posts/{id}/delete", name="deleteOffer")
+     * @param Offers $offers
+     */
+    public function delete(Offers $offer ){
+        $del = $this->getDoctrine()->getManager();
+        $del->remove($offer);
+        $del->flush();
+
+        return $this->redirectToRoute('spice');
     }
 }
+
 
